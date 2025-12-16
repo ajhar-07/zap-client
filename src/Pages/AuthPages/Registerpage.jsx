@@ -2,21 +2,43 @@ import React from 'react';
 import useAuth from '../../Hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router';
+import axios from 'axios';
 
 const Registerpage = () => {
    const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
-    const {user,Register,googlelogin}=useAuth()
+    const {user,Register,googlelogin,updateUserprofile}=useAuth()
     const{register,handleSubmit,formState:{errors}}=useForm()
     const handleregister=(data)=>{
 
       console.log(data);
-      register(data.email,data.password)
+      const profileImg=data.photo[0]
+      Register(data.email,data.password)
       .then(res=>{
         console.log(res.user);
         alert("Register Successfully")
-          navigate(from, { replace: true });
+         
+          const formData=new FormData()
+          formData.append('image',profileImg)
+          axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host}`,formData)
+          .then(res=>{
+            console.log(res.data);
+            const userProfile={
+              displayName : data.name,
+              photoURL:res.data.data.url
+
+            }
+              updateUserprofile(userProfile)
+             .then(()=>{
+              console.log("profile updated");
+               navigate(from, { replace: true });
+             })
+             .catch(error=>{console.log(error);
+              alert(error.message)
+             })
+          })
+
       })
       .catch(error=>{
         console.log(error);

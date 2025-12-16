@@ -49,6 +49,14 @@ const Navbar = () => {
     </ul>
   </div>
   <div className="navbar-end">
+   {user?.photoURL && (
+  <img
+    src={user.photoURL}
+    alt="user"
+    className="w-10 h-10 rounded-full mx-2"
+  />
+)}
+
   {
     user? <button onClick={handlelogout} className="inline-flex items-center justify-center px-6 py-2.5
              rounded-full bg-[#CAEB66]
