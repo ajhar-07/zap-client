@@ -21,7 +21,9 @@ const Loginpage = () => {
         })
 
 
-        const handlegooglelogin=()=>{
+         }
+
+         const handlegoogle=()=>{
             googlelogin()
       .then((res) =>{
          console.log(res.user);
@@ -35,8 +37,6 @@ const Loginpage = () => {
         })
 
         }
-        
-    }
     return (
           <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-sm bg-white rounded-3xl shadow-2xl p-8">
@@ -73,7 +73,7 @@ const Loginpage = () => {
           </button>
         </form>
 
-        <button onClick={handlelogin}
+        <button onClick={handlegoogle}
           className="w-full flex justify-center items-center gap-2 mt-4 py-3 border rounded-xl hover:bg-gray-50 transition-shadow shadow-md"
         >
           {/* You can add Google icon here */}

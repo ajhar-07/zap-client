@@ -4,8 +4,24 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router';
 
 const Registerpage = () => {
-    const {user,Register}=useAuth()
+    const {user,Register,}=useAuth()
     const{register,handleSubmit,formState:{errors}}=useForm()
+    const handleregister=(data)=>{
+
+      console.log(data);
+      register(data.email,data.password)
+      .then(res=>{
+        console.log(res.user);
+        alert("Register Successfully")
+        
+      })
+      .catch(error=>{
+        console.log(error);
+        alert(error.message)
+        
+      })
+      
+    }
     return (
          <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-sm bg-white rounded-3xl shadow-2xl p-8">
@@ -15,45 +31,52 @@ const Registerpage = () => {
 
        
 
-        <form  className="space-y-4">
+        <form  className="space-y-4" onSubmit={handleSubmit(handleregister)}>
           <div>
             <input
               type="text"
               placeholder="Full Name"
-              {...register("name", { required: "Name is required" })}
+              {...register("name", { required:true})}
               className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CAEB66] shadow-sm"
             />
-          
+          {errors.name?.type==="required" 
+          && <p className='text-red-500'>User Name Required</p>
+          }
           </div>
 
           <div>
             <input
               type="file"
               accept="image/*"
-              {...register("photo", { required: "Photo is required" })}
+              {...register("photo", { required: true })}
               className="w-full border rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]"
             />
-          
+          {errors.photo?.type==="required" &&
+          <p className='text-red-500'>Photo is Required</p>}
           </div>
 
           <div>
             <input
               type="email"
               placeholder="Email"
-              {...register("email", { required: "Email is required" })}
+              {...register("email", { required:true })}
               className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CAEB66] shadow-sm"
             />
-          
+          {errors.email?.type==="required" &&
+          <p className='text-red-500'>Email is Required</p>}
           </div>
 
           <div>
             <input
               type="password"
               placeholder="Password"
-              {...register("password", { required: "Password is required", minLength: 6 })}
+              {...register("password", { required: true, minLength: 6 })}
               className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CAEB66] shadow-sm"
             />
-           
+           {errors.password?.type==="required" &&
+           <p className='text-red-500'>Password is Required</p>}
+           {errors.password?.type==="minLength" &&
+           <p className='text-red-500'>Password must be 6 digit</p>}
           </div>
 
           <button
