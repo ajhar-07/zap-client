@@ -1,8 +1,10 @@
 import React from 'react';
 import Logo from './Logo';
 import { NavLink } from 'react-router';
+import useAuth from '../Hooks/useAuth';
 
 const Navbar = () => {
+  const {user,Logout}=useAuth()
     const links=<>
     <li><NavLink to={'/'}>Home</NavLink></li>
     <li><NavLink to={'/services'}>Services</NavLink></li>
@@ -12,6 +14,20 @@ const Navbar = () => {
     <li><NavLink to={'/be-a-rider'}>Be a rider</NavLink></li>
     
     </>
+
+    const handlelogout=()=>{
+      Logout()
+      .then(res=>{
+        console.log(res);
+        alert("Logout Successfully")
+        
+      })
+      .catch(error=>{
+        console.log(error);
+        alert(error.message)
+        
+      })
+    }
     return (
        <div className="navbar  text-secondary shadow-sm rounded-2xl">
   <div className="navbar-start">
@@ -33,7 +49,27 @@ const Navbar = () => {
     </ul>
   </div>
   <div className="navbar-end">
-    <NavLink to={'/login'} className="btn bg-primary">Login</NavLink>
+  {
+    user? <button onClick={handlelogout} className="inline-flex items-center justify-center px-6 py-2.5
+             rounded-full bg-[#CAEB66]
+             text-gray-900 font-semibold tracking-wide
+             shadow-md hover:shadow-lg
+             hover:bg-[#b7dd58]
+             transition-all duration-300 ease-in-out
+             active:scale-95">Logout</button>:  <NavLink
+  to="/login"
+   className="inline-flex items-center justify-center px-6 py-2.5
+             rounded-full bg-[#CAEB66]
+             text-gray-900 font-semibold tracking-wide
+             shadow-md hover:shadow-lg
+             hover:bg-[#b7dd58]
+             transition-all duration-300 ease-in-out
+             active:scale-95"
+>
+  Login
+</NavLink>
+
+  }
   </div>
 </div>
     );

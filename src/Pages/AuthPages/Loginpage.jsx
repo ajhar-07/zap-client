@@ -1,9 +1,12 @@
 import React from 'react';
 import useAuth from '../../Hooks/useAuth';
-import { Link, Navigate } from 'react-router';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 
 const Loginpage = () => {
+   const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
     const {user,Login,googlelogin}=useAuth()
     const{register,handleSubmit,formState:{errors}}=useForm()
 
@@ -13,6 +16,7 @@ const Loginpage = () => {
         .then(res=>{
             console.log(res.user);
             alert("Login Successfully")
+              navigate(from, { replace: true });
         })
         .catch(error=>{
             console.log(error);
@@ -28,6 +32,7 @@ const Loginpage = () => {
       .then((res) =>{
          console.log(res.user);
          alert("Login Successfully")
+           navigate(from, { replace: true });
          
       })
      .catch(error=>{
@@ -49,7 +54,7 @@ const Loginpage = () => {
             type="email"
             {...register('email',{required:true})}
             placeholder="Email"
-            required
+            
             className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CAEB66] shadow-sm"
           />
          {
@@ -59,7 +64,7 @@ const Loginpage = () => {
             type="password"
            {...register('password',{required:true})}
             placeholder="Password"
-            required
+           
             className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CAEB66] shadow-sm"
           />
           {

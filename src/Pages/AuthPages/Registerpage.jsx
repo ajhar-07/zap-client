@@ -1,9 +1,12 @@
 import React from 'react';
 import useAuth from '../../Hooks/useAuth';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 
 const Registerpage = () => {
+   const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
     const {user,Register,googlelogin}=useAuth()
     const{register,handleSubmit,formState:{errors}}=useForm()
     const handleregister=(data)=>{
@@ -13,7 +16,7 @@ const Registerpage = () => {
       .then(res=>{
         console.log(res.user);
         alert("Register Successfully")
-        
+          navigate(from, { replace: true });
       })
       .catch(error=>{
         console.log(error);
@@ -28,7 +31,7 @@ const Registerpage = () => {
       .then((res) =>{
          console.log(res.user);
          alert("Login Successfully")
-         
+           navigate(from, { replace: true });
       })
      .catch(error=>{
             console.log(error);
