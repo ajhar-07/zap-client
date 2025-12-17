@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useLoaderData } from 'react-router';
 
 const SendParcel = () => {
           const {register,handleSubmit,formState:{errors}}=useForm()
+          const serviceCenters=useLoaderData()
+          const regionDuplecates=serviceCenters.map(center=>center.region)
+          const regions=[...new Set(regionDuplecates)]
+          console.log(regions);
+          
           const handleSendproduct=(data)=>{
             console.log(data);
             
@@ -65,6 +71,20 @@ const SendParcel = () => {
                         />
                           {errors.senderName?.type==="required" && <p className='text-red-500'>Give a Sender Name</p>}
                         <input
+                            type="email"
+                            placeholder="Sender email"
+                            {...register('senderEmail',{required:true})}
+                            className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-[#CAEB66]" 
+                        />
+                          {errors.senderEmail?.type==="required" && <p className='text-red-500'>Give a Sender Email</p>}
+                       
+                            <select defaultValue="Pick a Region" className="select">
+                              {
+                                regions.map((region,i)=> <option key={i} value={region}>{region}</option>)
+                              }
+                              </select>
+                       
+                        <input
                             type="text"
                             placeholder="Sender Address"
                             {...register('senderAddress',{required:true})}
@@ -105,6 +125,13 @@ const SendParcel = () => {
                             className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-[#CAEB66]" 
                         />
                           {errors.reciverName?.type==="required" && <p className='text-red-500'>Give Reciver Name</p>}
+                        <input
+                            type="text"
+                            placeholder="Receiver Email"
+                            {...register('reciverEmail',{required:true})}
+                            className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-[#CAEB66]" 
+                        />
+                          {errors.reciverEmail?.type==="required" && <p className='text-red-500'>Give Reciver Email</p>}
                         <input
                             type="text"
                             placeholder="Receiver Address"

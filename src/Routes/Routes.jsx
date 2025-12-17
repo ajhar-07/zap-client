@@ -14,7 +14,9 @@ export const router=createBrowserRouter([
         children:[
            {path:'/', element:<Home></Home>},
            {path:'/coverage', element:<Privateroutes><Coverage></Coverage></Privateroutes>},
-           {path:'/send-a-parcel', element:<Privateroutes><SendParcel></SendParcel></Privateroutes>},
+           {path:'/send-a-parcel', element:<Privateroutes><SendParcel></SendParcel></Privateroutes>,
+            loader :()=>fetch('/servicecenter.json'),
+           },
            {path:'/login', element:<Loginpage></Loginpage>},
            {path:'/register', element:<Registerpage></Registerpage>},
            
