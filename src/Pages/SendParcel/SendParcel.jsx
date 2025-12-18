@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLoaderData } from 'react-router';
+import Swal from 'sweetalert2';
 
 const SendParcel = () => {
           const {register,handleSubmit,formState:{errors}}=useForm()
@@ -11,6 +12,44 @@ const SendParcel = () => {
           
           const handleSendproduct=(data)=>{
             console.log(data);
+            const isDocument=data.parcelType==="document"
+            const isSameregion=data.senderRegion===data.reciverRegion
+            const parcelwigth=parseFloat(data.parcelwigth)
+            let cost=0;
+            if (isDocument) {
+               cost=isSameregion?60:80
+              
+            }
+            else{
+                if(parcelwigth<3)
+                {
+                  cost = isSameregion?110:150
+                }
+                else{
+                  const minCharge=isSameregion?110:150
+                  const extraWeight=parcelwigth-3
+                  const extraCharge=isSameregion?extraWeight*40:extraWeight*40+40
+                  cost=minCharge+extraCharge
+                }
+            }
+            console.log(cost);
+            Swal.fire({
+  title: "Confirm Your Order?",
+  text: `your total amount will be ${cost} /-`,
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Confirm"
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire({
+      title: "Cancel!",
+      text: "Your file has been deleted.",
+      icon: "success"
+    });
+  }
+});
             
           }
     return (
@@ -78,7 +117,7 @@ const SendParcel = () => {
                         />
                           {errors.senderEmail?.type==="required" && <p className='text-red-500'>Give a Sender Email</p>}
                        
-                            <select defaultValue="Pick a Region" className="select">
+                            <select defaultValue="Pick a Region" className="select" {...register('senderRegion')}>
                               {
                                 regions.map((region,i)=> <option key={i} value={region}>{region}</option>)
                               }
@@ -132,6 +171,13 @@ const SendParcel = () => {
                             className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-[#CAEB66]" 
                         />
                           {errors.reciverEmail?.type==="required" && <p className='text-red-500'>Give Reciver Email</p>}
+                       
+                         <select defaultValue="Pick a Region" className="select" {...register('reciverRegion')}>
+                              {
+                                regions.map((region,i)=> <option key={i} value={region}>{region}</option>)
+                              }
+                              </select>
+
                         <input
                             type="text"
                             placeholder="Receiver Address"
