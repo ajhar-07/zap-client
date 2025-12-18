@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLoaderData } from 'react-router';
 import Swal from 'sweetalert2';
+import useAxiossecure from '../../Hooks/useAxiossecure';
+import useAuth from '../../Hooks/useAuth';
 
 const SendParcel = () => {
+          const {user}=useAuth()
+          const axiosSecure=useAxiossecure()
           const {register,handleSubmit,formState:{errors}}=useForm()
           const serviceCenters=useLoaderData()
           const regionDuplecates=serviceCenters.map(center=>center.region)
@@ -15,6 +19,7 @@ const SendParcel = () => {
             const isDocument=data.parcelType==="document"
             const isSameregion=data.senderRegion===data.reciverRegion
             const parcelwigth=parseFloat(data.parcelwigth)
+           
             let cost=0;
             if (isDocument) {
                cost=isSameregion?60:80
@@ -43,10 +48,21 @@ const SendParcel = () => {
   confirmButtonText: "Confirm"
 }).then((result) => {
   if (result.isConfirmed) {
+     axiosSecure.post('/parcels',data)
+      .then((res)=>{
+        console.log(res);
+        alert('data Saved to Database')
+      })
+      .catch(error=>{
+        console.log(error);
+        alert(error.message)
+        
+      })
     Swal.fire({
-      title: "Cancel!",
-      text: "Your file has been deleted.",
-      icon: "success"
+     
+      // title: "Cancel!",
+      // text: "Your file has been deleted.",
+      // icon: "success"
     });
   }
 });
@@ -105,6 +121,7 @@ const SendParcel = () => {
                         <input
                             type="text"
                             placeholder="Sender Name"
+                            defaultValue={user?.displayName}
                             {...register('senderName',{required:true})}
                             className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-[#CAEB66]" 
                         />
@@ -112,6 +129,7 @@ const SendParcel = () => {
                         <input
                             type="email"
                             placeholder="Sender email"
+                            defaultValue={user?.email}
                             {...register('senderEmail',{required:true})}
                             className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-[#CAEB66]" 
                         />
