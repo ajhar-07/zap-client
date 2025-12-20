@@ -16,6 +16,7 @@ const SendParcel = () => {
           
           const handleSendproduct=(data)=>{
             console.log(data);
+           
             const isDocument=data.parcelType==="document"
             const isSameregion=data.senderRegion===data.reciverRegion
             const parcelwigth=parseFloat(data.parcelwigth)
@@ -35,6 +36,7 @@ const SendParcel = () => {
                   const extraWeight=parcelwigth-3
                   const extraCharge=isSameregion?extraWeight*40:extraWeight*40+40
                   cost=minCharge+extraCharge
+                  
                 }
             }
             console.log(cost);
@@ -48,6 +50,7 @@ const SendParcel = () => {
   confirmButtonText: "Confirm"
 }).then((result) => {
   if (result.isConfirmed) {
+    data.cost=cost
      axiosSecure.post('/parcels',data)
       .then((res)=>{
         console.log(res);
