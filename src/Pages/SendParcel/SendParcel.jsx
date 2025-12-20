@@ -58,12 +58,12 @@ const SendParcel = () => {
         alert(error.message)
         
       })
-    Swal.fire({
+    // Swal.fire({
      
-      // title: "Cancel!",
-      // text: "Your file has been deleted.",
-      // icon: "success"
-    });
+    //   title: "Cancel!",
+    //   text: "Your file has been Confirmed.",
+    //   icon: "success"
+    // });
   }
 });
             
