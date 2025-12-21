@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { MdDeleteOutline } from "react-icons/md";
 import { FaEye, FaPen } from 'react-icons/fa6';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router';
 const Myparcels = () => {
     const {user}=useAuth()
     const axiosSecure=useAxiossecure()
@@ -60,7 +61,8 @@ Swal.fire({
         <th></th>
         <th>Name</th>
         <th>Cost</th>
-        <th>Payment Status</th>
+        <th>Payment</th>
+        <th>Delevary Status</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -71,7 +73,10 @@ Swal.fire({
         <th>{i+1}</th>
         <td>{parcel.parcelName}</td>
         <td>{parcel.cost}</td>
-        <td>Blue</td>
+        <td>{parcel.paymentStatus==="paid" ? <span>paid</span>
+        :<Link to={`/dashboard/payment/${parcel._id}`} className='btn btn-sm btn-primary text-black'>Pay</Link>
+      }</td>
+        <td>Status</td>
         <td className=''>
             <button onClick={()=>handleparceldelete(parcel._id)} className='btn btn-square'>
                 <MdDeleteOutline /></button>
