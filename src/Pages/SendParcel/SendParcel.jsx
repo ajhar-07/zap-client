@@ -54,19 +54,21 @@ const SendParcel = () => {
      axiosSecure.post('/parcels',data)
       .then((res)=>{
         console.log(res);
-        alert('data Saved to Database')
+        if(res.data.insertedId){
+            Swal.fire({
+     
+      title: "Cancel!",
+      text: "Your file has been Confirmed.",
+      icon: "success"
+    });
+        }
       })
       .catch(error=>{
         console.log(error);
         alert(error.message)
         
       })
-    // Swal.fire({
-     
-    //   title: "Cancel!",
-    //   text: "Your file has been Confirmed.",
-    //   icon: "success"
-    // });
+  
   }
 });
             

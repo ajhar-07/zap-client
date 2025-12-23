@@ -6,6 +6,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { FaEye, FaPen } from 'react-icons/fa6';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router';
+import Payment from './Payment/Payment';
 const Myparcels = () => {
     const {user}=useAuth()
     const axiosSecure=useAxiossecure()
@@ -52,6 +53,20 @@ Swal.fire({
   }
 });
     }
+
+
+    const handlePayment= async (parcel)=>{
+         const paymentInfo={
+          senderEmail:parcel.senderEmail,
+          parcelName:parcel.parcelName,
+          parcelId:parcel._id,
+          cost:parcel.cost
+         };
+         const res= await axiosSecure.post('/payment-checkout-session',paymentInfo)
+         console.log(res.data);
+         window.location.assign(res.data.url)
+         
+    }
     return (
        <div className="overflow-x-auto">
   <table className="table table-zebra">
@@ -73,8 +88,8 @@ Swal.fire({
         <th>{i+1}</th>
         <td>{parcel.parcelName}</td>
         <td>{parcel.cost}</td>
-        <td>{parcel.paymentStatus==="paid" ? <span>paid</span>
-        :<Link to={`/dashboard/payment/${parcel._id}`} className='btn btn-sm btn-primary text-black'>Pay</Link>
+        <td>{parcel.paymentStatus==="paid" ? <span className='text-green-500 font-semibold'><i>Paid</i></span>
+        :<button onClick={()=>handlePayment(parcel)} className='btn btn-sm btn-primary text-black'>Pay</button>
       }</td>
         <td>Status</td>
         <td className=''>
