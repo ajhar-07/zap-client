@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import useAxiossecure from '../../Hooks/useAxiossecure';
 import useAuth from '../../Hooks/useAuth';
@@ -12,6 +12,7 @@ const SendParcel = () => {
           const serviceCenters=useLoaderData()
           const regionDuplecates=serviceCenters.map(center=>center.region)
           const regions=[...new Set(regionDuplecates)]
+          const navigate=useNavigate()
           console.log(regions);
           
           const handleSendproduct=(data)=>{
@@ -55,10 +56,11 @@ const SendParcel = () => {
       .then((res)=>{
         console.log(res);
         if(res.data.insertedId){
+          navigate('/dashboard/my-parcels')
             Swal.fire({
      
-      title: "Cancel!",
-      text: "Your file has been Confirmed.",
+      title: "Please Pay!",
+      text: "Confirmed your order.",
       icon: "success"
     });
         }

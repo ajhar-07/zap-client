@@ -3,12 +3,14 @@ import useAuth from '../../Hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router';
 import axios from 'axios';
+import useAxiossecure from '../../Hooks/useAxiossecure';
 
 const Registerpage = () => {
    const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
     const {user,Register,googlelogin,updateUserprofile}=useAuth()
+    const axiosSecure=useAxiossecure()
     const{register,handleSubmit,formState:{errors}}=useForm()
     const handleregister=(data)=>{
 
@@ -24,9 +26,27 @@ const Registerpage = () => {
           axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host}`,formData)
           .then(res=>{
             console.log(res.data);
+            const photoURL=res.data.data.url
+            const userInfo={
+              displayName : data.name,
+              email:data.email,
+              photoURL:photoURL,
+
+            }
+            axiosSecure.post('/users',userInfo)
+            .then(res=>{
+              if(res.data.insertedId){
+                console.log('user created in Database');
+                
+              }
+            })
+            .catch(error=>{
+              console.log(error);
+              
+            })
             const userProfile={
               displayName : data.name,
-              photoURL:res.data.data.url
+              photoURL:photoURL
 
             }
               updateUserprofile(userProfile)
@@ -53,7 +73,25 @@ const Registerpage = () => {
       .then((res) =>{
          console.log(res.user);
          alert("Login Successfully")
-           navigate(from, { replace: true });
+           
+           const userInfo={
+            displayName:res.user.displayName,
+            email:res.user.email,
+            photoURL:res.user.photoURL
+           }
+           axiosSecure.post('/users',userInfo)
+           .then((res)=>{
+            
+              console.log('user Data Saved in database',res);
+              navigate(from, { replace: true });
+              
+          
+           })
+           
+           .catch(error=>{
+            console.log(error);
+            
+           })
       })
      .catch(error=>{
             console.log(error);

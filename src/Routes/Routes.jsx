@@ -12,6 +12,7 @@ import Myparcels from "../Pages/DashboardPages/Myparcels";
 import Payment from "../Pages/DashboardPages/Payment/Payment";
 import PaymentSuccess from "../Pages/DashboardPages/Payment/PaymentSuccess";
 import PaymentCancelled from "../Pages/DashboardPages/Payment/PaymentCancelled";
+import Paymenthistory from "../Pages/DashboardPages/Paymenthistory/Paymenthistory";
 
 export const router=createBrowserRouter([
     //Routes for Main Layout
@@ -33,7 +34,8 @@ export const router=createBrowserRouter([
             {path:'/dashboard/my-parcels', element:<Myparcels/>},
             {path:'/dashboard/payment/:id', element:<Payment></Payment>},
             {path:'/dashboard/payment-success', element:<PaymentSuccess></PaymentSuccess>},
-            {path:'/dashboard/payment-cancelled', element:<PaymentCancelled/>}
+            {path:'/dashboard/payment-cancelled', element:<PaymentCancelled/>},
+            {path:'/dashboard/payment-hostory', element:<Paymenthistory/>}
         ]
     }
 

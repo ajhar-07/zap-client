@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaTruck } from 'react-icons/fa';
+import { FaHistory, FaTruck } from 'react-icons/fa';
 import { FaTruckFast, FaTruckMonster } from 'react-icons/fa6';
 import { Link, Outlet } from 'react-router';
 
@@ -36,10 +36,18 @@ const Dashboardlayout = () => {
         </li>
         {/* List item */}
         <li>
-          <Link to={'/dashboard/my-parcels'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
+          <Link to={'/dashboard/my-parcels'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Parcels">
             {/* Truck icon */}
           <FaTruckFast/>
             <span className="is-drawer-close:hidden">My Parcels</span>
+          </Link>
+        </li>
+        {/* Payment History*/}
+        <li>
+          <Link to={'/dashboard/payment-hostory'} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History">
+            {/* Truck icon */}
+          <FaHistory/>
+            <span className="is-drawer-close:hidden">Payment History</span>
           </Link>
         </li>
 
